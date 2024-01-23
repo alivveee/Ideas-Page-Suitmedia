@@ -1,5 +1,3 @@
-import React from "react";
-
 const Pagination = ({ totalPages, currentPage, pageChange }) => {
   const renderPageNumbers = () => {
     const pageNumbers = [];
