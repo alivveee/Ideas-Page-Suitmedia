@@ -1,66 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "../components/Banner";
 import PostList from "../components/PostList";
 import ItemSortingPagination from "../components/ItemSortingPagination";
 import Pagination from "../components/Pagination";
 
-class IdeasPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: Number(localStorage.getItem("show")) || 10,
-      sort: localStorage.getItem("sort") || "published_at",
-      page: Number(localStorage.getItem("page")) || 1,
-      totalPage: Number(localStorage.getItem("totalPage")) || 10,
-    };
-  }
+const IdeasPage = () => {
+  const [show, setShow] = useState(Number(localStorage.getItem("show")) || 10);
+  const [sort, setSort] = useState(localStorage.getItem("sort") || "published_at");
+  const [page, setPage] = useState(Number(localStorage.getItem("page")) || 1);
+  const [totalPage, setTotalPage] = useState(Number(localStorage.getItem("totalPage")) || 10);
 
-  onShowChange = (show) => {
-    const totalPage = 100 / show;
-    const page = Math.min(this.state.page, totalPage); 
+  const onShowChange = (newShow) => {
+    const newTotalPage = 100 / newShow;
+    const newPage = Math.min(page, newTotalPage);
 
-    this.setState(() => {
-      localStorage.setItem("show", show);
-      localStorage.setItem("totalPage", totalPage);
-      localStorage.setItem("page", page); 
-      return {
-        show,
-        totalPage,
-        page, 
-      };
-    });
+    localStorage.setItem("show", newShow);
+    localStorage.setItem("totalPage", newTotalPage);
+    localStorage.setItem("page", newPage);
+
+    setShow(newShow);
+    setTotalPage(newTotalPage);
+    setPage(newPage);
   };
 
-  onSortChange = (sort) => {
-    this.setState(() => {
-      localStorage.setItem("sort", sort);
-      return {
-        sort,
-      };
-    });
+  const onSortChange = (newSort) => {
+    localStorage.setItem("sort", newSort);
+    setSort(newSort);
   };
 
-  onPageChange = (page) => {
-    this.setState(() => {
-      localStorage.setItem("page", page);
-      return {
-        page,
-      };
-    });
+  const onPageChange = (newPage) => {
+    localStorage.setItem("page", newPage);
+    setPage(newPage);
   };
 
-  render() {
-    return (
-      <div>
-        <Banner />
-        <div className="mx-24 my-6">
-          <ItemSortingPagination page={this.state.page} show={this.state.show} sort={this.state.sort} sortChange={this.onSortChange} showChange={this.onShowChange} />
-          <PostList show={this.state.show} sort={this.state.sort} page={this.state.page} />
-          <Pagination currentPage={this.state.page} pageChange={this.onPageChange} totalPages={this.state.totalPage} />
-        </div>
+  return (
+    <div>
+      <Banner />
+      <div className="mx-6 md:mx-12 xl:mx-24 my-6">
+        <ItemSortingPagination page={page} show={show} sort={sort} sortChange={onSortChange} showChange={onShowChange} />
+        <PostList show={show} sort={sort} page={page} />
+        <Pagination currentPage={page} pageChange={onPageChange} totalPages={totalPage} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default IdeasPage;

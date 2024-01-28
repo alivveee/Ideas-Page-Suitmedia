@@ -1,48 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { getPosts } from "../utils/api";
 import PostItem from "./PostItem";
 
-class ListPost extends React.Component {
-  constructor(props) {
-    super(props);
+const ListPost = ({ show, sort, page }) => {
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
 
-    this.state = {
-      posts: [],
-      error: null,
-    };
-  }
-
-  async componentDidMount() {
-    try {
-      const posts = await getPosts(this.props.show, this.props.sort, this.props.page);
-      this.setState({ posts, error: null });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      this.setState({ error });
-    }
-  }
-
-  async componentDidUpdate(prevProps) {
-    if (prevProps.sort !== this.props.sort || prevProps.show !== this.props.show || prevProps.page !== this.props.page) {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const posts = await getPosts(this.props.show, this.props.sort, this.props.page);
-        this.setState({ posts, error: null });
+        const fetchedPosts = await getPosts(show, sort, page);
+        setPosts(fetchedPosts);
+        setError(null);
       } catch (error) {
         console.error("Error fetching data:", error);
-        this.setState({ error });
+        setError(error);
       }
-    }
+    };
+
+    fetchData();
+  }, [show, sort, page]);
+
+  if (error) {
+    return <p>Error fetching data. Please try again later.</p>;
   }
 
-  render() {
-    const { posts, error } = this.state;
-
-    if (error) {
-      return <p>Error fetching data. Please try again later.</p>;
-    }
-
-    return <div className="grid grid-cols-4 grid-rows-auto gap-5">{posts ? posts.map((post) => <PostItem key={post.id} title={post.title} publishedAt={post.published_at} img={post.medium_image[0]} />) : <p>No posts available, </p>}</div>;
-  }
-}
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-auto gap-5">
+      {!posts && <p>No posts available.</p>}
+      {posts && posts.map((post) => <PostItem key={post.id} title={post.title} publishedAt={post.published_at} img={post.medium_image[0]} />)}
+    </div>
+  );
+};
 
 export default ListPost;

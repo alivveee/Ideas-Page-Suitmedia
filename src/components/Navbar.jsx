@@ -28,40 +28,40 @@ const Navbar = () => {
   }, [isInitial]);
 
   return (
-    <header className={`z-10 fixed top-0 w-full px-20 py-4 bg-primary transition-all ${isInitial || isScrolled ? "" : "-translate-y-full bg-opacity-70"}`}>
-      <div className="flex justify-between items-center">
+    <header className={`z-10 fixed top-0 w-full px-20 py-4 bg-primary transition-all ${isInitial || isScrolled ? "" : "-translate-y-full"}`}>
+      <div className="flex flex-wrap justify-between items-center">
         <a href="#" className="inline-block">
           <img src="suitmedia-logo.png" alt="suitmedia logo" className="h-auto min-w-32 max-w-32" />
         </a>
 
-        <ul className="flex gap-4 text-white text-lg">
+        <ul className="flex flex-wrap gap-4 text-white text-lg">
           <li>
-            <Link to={"/work"} className={`hover:text-gray-300 ${location.pathname === "/work" ? "underline" : ""}`}>
+            <Link to={"/work"} className={`hover:underline ${location.pathname === "/work" ? "font-bold" : ""}`}>
               Work
             </Link>
           </li>
           <li>
-            <Link to={"/about"} className={`hover:text-gray-300 ${location.pathname === "/about" ? "underline" : ""}`}>
+            <Link to={"/about"} className={`hover:underline ${location.pathname === "/about" ? "font-bold" : ""}`}>
               About
             </Link>
           </li>
           <li>
-            <Link to={"/services"} className={`hover:text-gray-300 ${location.pathname === "/services" ? "underline" : ""}`}>
+            <Link to={"/services"} className={`hover:underline ${location.pathname === "/services" ? "font-bold" : ""}`}>
               Services
             </Link>
           </li>
           <li>
-            <Link to={"/ideas"} className={`hover:text-gray-300 ${location.pathname === "/ideas" ? "underline" : ""}`}>
+            <Link to={"/ideas"} className={`hover:underline ${location.pathname === "/ideas" ? "font-bold" : ""}`}>
               Ideas
             </Link>
           </li>
           <li>
-            <Link to={"/careers"} className={`hover:text-gray-300 ${location.pathname === "/careers" ? "underline" : ""}`}>
+            <Link to={"/careers"} className={`hover:underline ${location.pathname === "/careers" ? "font-bold" : ""}`}>
               Careers
             </Link>
           </li>
           <li>
-            <Link to={"/contact"} className={`hover:text-gray-300 ${location.pathname === "/contact" ? "underline" : ""}`}>
+            <Link to={"/contact"} className={`hover:underline ${location.pathname === "/contact" ? "font-bold" : ""}`}>
               Contact
             </Link>
           </li>

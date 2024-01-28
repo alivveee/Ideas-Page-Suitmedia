@@ -10,6 +10,7 @@ const App = () => {
   useEffect(() => {
     navigate("/ideas");
   }, []);
+  
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
